@@ -220,8 +220,8 @@ public class Player : MonoBehaviour
         {
             if(weapon == 0)
             {
-                Debug.DrawRay(cam.transform.position + transform.forward * 0.25f, transform.forward, Color.red, 100000f);
-                Physics.Raycast(cam.transform.position + transform.forward * 0.25f, transform.forward, out RaycastHit hit, 100000f);
+                Debug.DrawRay(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.forward, Color.red, Mathf.Infinity);
+                Physics.Raycast(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.forward, out RaycastHit hit, Mathf.Infinity);
                 if(hit.collider != null)
                 {
                     if (hit.collider.GetComponent<Enemy>() != null)
