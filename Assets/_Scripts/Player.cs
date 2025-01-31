@@ -16,12 +16,20 @@ public class Player : MonoBehaviour
     public int pistolDamage;
     public int shotgunDamage;
     public int rifleDamage;
+    public int sniperDamage;
+    public int pistolAmmo;
+    public int shotgunAmmo;
+    public int rifleAmmo;
+    public int sniperAmmo;
     public bool grounded;
     public bool jumpable;
     public bool moving;
     public bool crouching;
     public bool shootable;
     public bool shootableControl;
+    public bool shotgunUnlocked;
+    public bool rifleUnlocked;
+    public bool sniperUnlocked;
     public float moveSpeed;
     public float walkSpeed;
     public float airSpeed;
@@ -31,6 +39,10 @@ public class Player : MonoBehaviour
     public float maxSpeedGrounded;
     public float deacceleratingCoef;
     public float shootCooldown;
+    public float pistolCooldown;
+    public float shotgunCooldown;
+    public float rifleCooldown;
+    public float sniperCooldown;
     public float bulletSpread;
     float rotationCamX = 0;
     void Start()
@@ -48,6 +60,25 @@ public class Player : MonoBehaviour
         HealthBar();
         SlideCrouch();
         ShootController();
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("pickup"))
+        {
+            if (other.GetComponent<PickupManager>().pickupID == 100)
+            {
+                shotgunUnlocked = true;
+            }
+            if (other.GetComponent<PickupManager>().pickupID == 101)
+            {
+                rifleUnlocked = true;
+            }
+            if (other.GetComponent<PickupManager>().pickupID == 102)
+            {
+                sniperUnlocked = true;
+            }
+            Destroy(other.transform.parent.gameObject);
+        }
     }
     void CheckGround()
     {
@@ -250,5 +281,12 @@ public class Player : MonoBehaviour
         yield return new WaitForSecondsRealtime(shootCooldown);
         shootable = true;
         shootableControl = false;
+    }
+    void WeaponSwitch()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+
+        }
     }
 }
