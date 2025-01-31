@@ -809,7 +809,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -805.6, y: -448.5}
+  m_AnchoredPosition: {x: -799, y: -398.09998}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721155236
@@ -899,7 +899,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -805.6, y: -510.4}
+  m_AnchoredPosition: {x: -799, y: -460}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &753389431
@@ -1526,7 +1526,6 @@ GameObject:
   - component: {fileID: 1272553240}
   - component: {fileID: 1272553239}
   - component: {fileID: 1272553238}
-  - component: {fileID: 1272553245}
   m_Layer: 0
   m_Name: Player for Nacho's Testing
   m_TagString: Untagged
@@ -1546,7 +1545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0aa6391bf84723459785f795cddcaf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiltAngle: 3
+  tiltAngle: 2
   tiltSpeed: 10
   returnSpeed: 6
   fallTiltAngle: 5
@@ -1700,19 +1699,6 @@ Transform:
   - {fileID: 1752366193}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1272553245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1272553236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97ef832e7982a864bbabe14a36d06523, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  staminaBar: {fileID: 654079626}
 --- !u!1 &1290297064
 GameObject:
   m_ObjectHideFlags: 0
