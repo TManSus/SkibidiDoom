@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // si lees esto lameme los huevos
     Rigidbody rb;
     Camera cam;
     public TextMeshProUGUI healthText;
