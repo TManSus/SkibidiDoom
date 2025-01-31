@@ -1109,7 +1109,7 @@ MonoBehaviour:
   runSpeed: 23
   crouchSpeed: 10
   mouseSensitivity: 2
-  maxSpeedGrounded: 2
+  maxSpeedGrounded: 10
   deacceleratingCoef: 0.2
 --- !u!136 &1755456706
 CapsuleCollider:
