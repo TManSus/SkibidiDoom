@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -10,9 +11,11 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI healthText;
     public RectTransform healthBarFill;
     public AudioSource shootSoundSource;
+    public List<GameObject> weaponList;
     public LayerMask enemyMask;
     public int health;
     public int weapon;
+    public int bulletDamage;
     public int pistolDamage;
     public int shotgunDamage;
     public int rifleDamage;
@@ -44,6 +47,10 @@ public class Player : MonoBehaviour
     public float rifleCooldown;
     public float sniperCooldown;
     public float bulletSpread;
+    public float pistolSpread;
+    public float shotgunSpread;
+    public float rifleSpread;
+    public float sniperSpread;
     float rotationCamX = 0;
     void Start()
     {
@@ -60,6 +67,8 @@ public class Player : MonoBehaviour
         HealthBar();
         SlideCrouch();
         ShootController();
+        WeaponSwitch();
+        WeaponVariableControl();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -255,17 +264,39 @@ public class Player : MonoBehaviour
     {
         if(Input.GetMouseButton(0) && shootable)
         {
+            Quaternion i = new Quaternion(Random.Range(-bulletSpread, bulletSpread), Random.Range(-bulletSpread, bulletSpread), 0, 0);
             shootable = false;
             if(weapon == 0)
             {
                 shootSoundSource.Play();
-                Debug.DrawLine(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.position + cam.transform.forward * 100000.25f, Color.red, 1);
-                Physics.Raycast(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.forward, out RaycastHit hit, Mathf.Infinity, enemyMask);
+                Debug.DrawLine(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.position + i * cam.transform.forward * 100000.25f, Color.red, 1);
+                Physics.Raycast(cam.transform.position + cam.transform.forward * 0.25f, i * cam.transform.forward, out RaycastHit hit, Mathf.Infinity, enemyMask);
                 if(hit.collider != null)
                 {
                     if (hit.collider.GetComponent<Enemy>() != null)
                     {
-                        hit.collider.GetComponent<Enemy>().Damage(pistolDamage);
+                        hit.collider.GetComponent<Enemy>().Damage(bulletDamage);
+                    }
+                }
+            }else if(weapon == 1)
+            {
+                List<RaycastHit> hits = new List<RaycastHit>();
+                shootSoundSource.Play();
+                Debug.DrawLine(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.position + i * cam.transform.forward * 100000.25f, Color.red, 1);
+                for(int a = 0; a == 10; a++)
+                {
+                    i = new Quaternion(Random.Range(-bulletSpread, bulletSpread), Random.Range(-bulletSpread, bulletSpread), 0, 0);
+                    Physics.Raycast(cam.transform.position + cam.transform.forward * 0.25f, i * cam.transform.forward, out RaycastHit hit, Mathf.Infinity, enemyMask);
+                    hits.Add(hit);
+                }
+                foreach(RaycastHit hit in hits)
+                {
+                    if (hit.collider != null)
+                    {
+                        if (hit.collider.GetComponent<Enemy>() != null)
+                        {
+                            hit.collider.GetComponent<Enemy>().Damage(bulletDamage);
+                        }
                     }
                 }
             }
@@ -284,9 +315,102 @@ public class Player : MonoBehaviour
     }
     void WeaponSwitch()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if(Input.GetKeyDown(KeyCode.Q) && weapon != 0)
         {
-
+            StopCoroutine(ShootCooldown());
+            shootable = true;
+            shootableControl = false;
+            weapon = 0;
+            foreach(GameObject i in weaponList)
+            {
+                if(weaponList.IndexOf(i) != weapon)
+                {
+                    i.SetActive(false);
+                }else
+                {
+                    i.SetActive(true);
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.E) && weapon != 1 && shotgunUnlocked)
+        {
+            StopCoroutine(ShootCooldown());
+            shootable = true;
+            shootableControl = false;
+            weapon = 1;
+            foreach (GameObject i in weaponList)
+            {
+                if (weaponList.IndexOf(i) != weapon)
+                {
+                    i.SetActive(false);
+                }
+                else
+                {
+                    i.SetActive(true);
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3) && weapon != 2 && rifleUnlocked)
+        {
+            StopCoroutine(ShootCooldown());
+            shootable = true;
+            shootableControl = false;
+            weapon = 2;
+            foreach (GameObject i in weaponList)
+            {
+                if (weaponList.IndexOf(i) != weapon)
+                {
+                    i.SetActive(false);
+                }
+                else
+                {
+                    i.SetActive(true);
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4) && weapon != 3 && sniperUnlocked)
+        {
+            StopCoroutine(ShootCooldown());
+            shootable = true;
+            shootableControl = false;
+            weapon = 3;
+            foreach (GameObject i in weaponList)
+            {
+                if (weaponList.IndexOf(i) != weapon)
+                {
+                    i.SetActive(false);
+                }
+                else
+                {
+                    i.SetActive(true);
+                }
+            }
+        }
+    }
+    void WeaponVariableControl()
+    {
+        if (weapon == 0)
+        {
+            shootCooldown = pistolCooldown;
+            bulletSpread = pistolSpread;
+            bulletDamage = pistolDamage;
+        }else if (weapon == 1)
+        {
+            shootCooldown = shotgunCooldown;
+            bulletSpread = shotgunSpread;
+            bulletDamage = shotgunDamage;
+        }
+        else if (weapon == 2)
+        {
+            shootCooldown = rifleCooldown;
+            bulletSpread = rifleSpread;
+            bulletDamage = rifleDamage;
+        }
+        else if (weapon == 3)
+        {
+            shootCooldown = sniperCooldown;
+            bulletSpread = sniperSpread;
+            bulletDamage = sniperDamage;
         }
     }
 }
