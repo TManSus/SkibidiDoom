@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI healthText;
     public RectTransform healthBarFill;
     public int health;
+    public int weapon;
+    public int pistolDamage;
+    public int shotgunDamage;
+    public int rifleDamage;
     public bool grounded;
     public bool jumpable;
     public bool moving;
@@ -206,6 +210,20 @@ public class Player : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
             }
             transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
+        }
+    }
+    void ShootController()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            if(weapon == 0)
+            {
+                Physics.Raycast(cam.transform.position + transform.forward * 0.25f, transform.forward, out RaycastHit hit, 100000);
+                if (hit.collider.GetComponent<Enemy>() != null)
+                {
+                    hit.collider.GetComponent<Enemy>().Damage(pistolDamage);
+                }
+            }
         }
     }
 }
