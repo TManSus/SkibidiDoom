@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
     Camera cam;
     public TextMeshProUGUI healthText;
     public RectTransform healthBarFill;
+    public AudioSource shootSoundSource;
+    public LayerMask enemyMask;
     public int health;
     public int weapon;
     public int pistolDamage;
@@ -18,6 +20,8 @@ public class Player : MonoBehaviour
     public bool jumpable;
     public bool moving;
     public bool crouching;
+    public bool shootable;
+    public bool shootableControl;
     public float moveSpeed;
     public float walkSpeed;
     public float airSpeed;
@@ -26,6 +30,8 @@ public class Player : MonoBehaviour
     public float mouseSensitivity;
     public float maxSpeedGrounded;
     public float deacceleratingCoef;
+    public float shootCooldown;
+    public float bulletSpread;
     float rotationCamX = 0;
     void Start()
     {
@@ -216,12 +222,14 @@ public class Player : MonoBehaviour
     }
     void ShootController()
     {
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButton(0) && shootable)
         {
+            shootable = false;
             if(weapon == 0)
             {
-                Debug.DrawRay(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.forward, Color.red, Mathf.Infinity);
-                Physics.Raycast(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.forward, out RaycastHit hit, Mathf.Infinity);
+                shootSoundSource.Play();
+                Debug.DrawLine(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.position + cam.transform.forward * 100000.25f, Color.red, 1);
+                Physics.Raycast(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.forward, out RaycastHit hit, Mathf.Infinity, enemyMask);
                 if(hit.collider != null)
                 {
                     if (hit.collider.GetComponent<Enemy>() != null)
@@ -231,5 +239,16 @@ public class Player : MonoBehaviour
                 }
             }
         }
+        if (!shootable && !shootableControl)
+        {
+            StartCoroutine(ShootCooldown());
+            shootableControl = true;
+        }
+    }
+    IEnumerator ShootCooldown()
+    {
+        yield return new WaitForSecondsRealtime(shootCooldown);
+        shootable = true;
+        shootableControl = false;
     }
 }
