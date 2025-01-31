@@ -219,11 +219,14 @@ public class Player : MonoBehaviour
         {
             if(weapon == 0)
             {
-                Debug.DrawRay(cam.transform.position + transform.forward * 0.25f, transform.forward, Color.red, 100000);
-                Physics.Raycast(cam.transform.position + transform.forward * 0.25f, transform.forward, out RaycastHit hit, 100000);
-                if (hit.collider.GetComponent<Enemy>() != null)
+                Debug.DrawRay(cam.transform.position + transform.forward * 0.25f, transform.forward, Color.red, 100000f);
+                Physics.Raycast(cam.transform.position + transform.forward * 0.25f, transform.forward, out RaycastHit hit, 100000f);
+                if(hit.collider != null)
                 {
-                    hit.collider.GetComponent<Enemy>().Damage(pistolDamage);
+                    if (hit.collider.GetComponent<Enemy>() != null)
+                    {
+                        hit.collider.GetComponent<Enemy>().Damage(pistolDamage);
+                    }
                 }
             }
         }
