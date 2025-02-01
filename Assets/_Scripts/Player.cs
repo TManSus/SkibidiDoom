@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -15,8 +18,6 @@ public class Player : MonoBehaviour
     public AudioSource shootSoundSource;
     public List<GameObject> weaponList;
     public LayerMask enemyMask;
-    Vector3 cameraInitialLocalPosition;
-    public int health;
     public int weapon;
     public int bulletDamage;
     public int pistolDamage;
@@ -31,25 +32,15 @@ public class Player : MonoBehaviour
     public bool jumpable;
     public bool moving;
     public bool running;
+    public bool runable;
     public bool crouching;
     public bool shootable;
     public bool shootableControl;
     public bool shotgunUnlocked;
     public bool rifleUnlocked;
     public bool sniperUnlocked;
-    public float walkHeadBobSpeed;
-    public float sprintHeadBobSpeed;
-    public float headBobAmount;
-    public float positionSmoothingFactor;
-    public float headBobStartDelay;
-    public float walkFOV;
-    public float sprintFOV;
-    public float fovSmoothingFactor;
+    public float health;
     public float stamina;
-    public float staminaRecoveryDelay;
-    public float staminaRecoveryRate;
-    public float staminaDepletionRate;
-    public float maxStamina;
     public float moveSpeed;
     public float walkSpeed;
     public float airSpeed;
@@ -68,11 +59,8 @@ public class Player : MonoBehaviour
     public float shotgunSpread;
     public float rifleSpread;
     public float sniperSpread;
-    float staminaRecoveryTimer;
+    float staminaTimer;
     float rotationCamX = 0;
-    float movementStartTime;
-    float headBobTimer;
-    float fovVelocity;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -86,12 +74,11 @@ public class Player : MonoBehaviour
         MovementVoid();
         MouseRotation();
         HealthAndStaminaBar();
-        SlideCrouch();
+        //SlideCrouch();
         ShootController();
         WeaponSwitch();
         WeaponVariableControl();
-        HandleStamina();
-        HandleHeadBobbing();
+        Stamina();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -208,13 +195,16 @@ public class Player : MonoBehaviour
             grounded = false;
             StartCoroutine(JumpWait());
         }
-        if (Input.GetKey(KeyCode.LeftShift) && !crouching)
+        if (Input.GetKey(KeyCode.LeftShift) && !crouching && runable)
         {
             moveSpeed = runSpeed;
+            running = true;
+            staminaBarFill.GetComponent<Image>().color = new Color32(255, 255, 0, 255);
         }
         else
         {
             moveSpeed = walkSpeed;
+            running = false;
         }
         if (grounded)
         {
@@ -243,6 +233,7 @@ public class Player : MonoBehaviour
     {
         healthBarFill.sizeDelta = new Vector2(health * 3, 50);
         healthBarFill.localPosition = new Vector2(health * 3 / 2 - 150, 0);
+        healthBarFill.GetComponent<Image>().color = new Color32((byte)(((health / 100f) * 155f) + 100f), 0, 0, 255);
         healthText.text = health.ToString();
         staminaBarFill.sizeDelta = new Vector2(stamina * 3, 50);
         staminaBarFill.localPosition = new Vector2(stamina * 3 / 2 - 150, 0);
@@ -290,7 +281,7 @@ public class Player : MonoBehaviour
     {
         if(Input.GetMouseButton(0) && shootable)
         {
-            Quaternion i = new Quaternion(Random.Range(-bulletSpread, bulletSpread), Random.Range(-bulletSpread, bulletSpread), 0, 0);
+            Quaternion i = new Quaternion(UnityEngine.Random.Range(-bulletSpread, bulletSpread), UnityEngine.Random.Range(-bulletSpread, bulletSpread), 0, 0);
             shootable = false;
             if(weapon == 0 || weapon == 2 || weapon == 3)
             {
@@ -311,7 +302,7 @@ public class Player : MonoBehaviour
                 Debug.DrawLine(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.position + i * cam.transform.forward * 100000.25f, Color.red, 1);
                 for(int a = 0; a < 10; a++)
                 {
-                    i = new Quaternion(Random.Range(-bulletSpread, bulletSpread), Random.Range(-bulletSpread, bulletSpread), 0, 0);
+                    i = new Quaternion(UnityEngine.Random.Range(-bulletSpread, bulletSpread), UnityEngine.Random.Range(-bulletSpread, bulletSpread), 0, 0);
                     Physics.Raycast(cam.transform.position + cam.transform.forward * 0.25f, i * cam.transform.forward, out RaycastHit hit, Mathf.Infinity, enemyMask);
                     hits.Add(hit);
                 }
@@ -439,56 +430,33 @@ public class Player : MonoBehaviour
             bulletDamage = sniperDamage;
         }
     }
-    void HandleStamina()
+    void Stamina()
     {
-        if (running)
+        if(running)
         {
-            // Deplete stamina while sprinting
-            stamina -= staminaDepletionRate * Time.deltaTime;
-            stamina = Mathf.Clamp(stamina, 0, maxStamina);
-            staminaRecoveryTimer = 0f; // Reset recovery timer when sprinting
+            stamina -= 5 * Time.fixedDeltaTime;
+            staminaTimer = 0;
         }
         else
         {
-            // Increment recovery timer when not sprinting
-            staminaRecoveryTimer += Time.deltaTime;
-
-            if (staminaRecoveryTimer >= staminaRecoveryDelay)
+            staminaTimer += Time.fixedDeltaTime;
+            if(staminaTimer > 2 && stamina <= 100)
             {
-                stamina += staminaRecoveryRate * Time.deltaTime;
-                stamina = Mathf.Clamp(stamina, 0, maxStamina);
+                stamina += 3 * Time.fixedDeltaTime;
             }
         }
-    }
-    void HandleHeadBobbing()
-    {
-        if (moving && grounded)
+        if(stamina <= 0)
         {
-            movementStartTime += Time.deltaTime;
-
-            if (movementStartTime >= headBobStartDelay)
-            {
-                headBobTimer += Time.deltaTime * (running ? sprintHeadBobSpeed : walkHeadBobSpeed);
-                float bobbingOffset = Mathf.Sin(headBobTimer) * headBobAmount;
-
-                cam.transform.localPosition = new Vector3(
-                    cameraInitialLocalPosition.x,
-                    cameraInitialLocalPosition.y + bobbingOffset,
-                    cameraInitialLocalPosition.z
-                );
-            }
+            staminaBarFill.GetComponent<Image>().color = new Color32(143, 0, 0, 255);
+            runable = false;
         }
-        else
+        if(stamina >= 20)
         {
-            // Smoothly reset camera position when not moving or in the air
-            cam.transform.localPosition = Vector3.Lerp(
-                cam.transform.localPosition,
-                cameraInitialLocalPosition,
-                positionSmoothingFactor * Time.deltaTime
-            );
-
-            headBobTimer = 0f;
-            movementStartTime = 0f;
+            if(!running)
+            {
+                staminaBarFill.GetComponent<Image>().color = new Color32(0, 255, 0, 255);
+            }
+            runable = true;
         }
     }
 }
