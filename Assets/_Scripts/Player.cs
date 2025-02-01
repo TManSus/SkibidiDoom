@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public AudioSource shootSoundSource;
     public List<GameObject> weaponList;
     public LayerMask enemyMask;
+    Vector3 cameraInitialLocalPosition;
     public int health;
     public int weapon;
     public int bulletDamage;
@@ -36,8 +37,15 @@ public class Player : MonoBehaviour
     public bool shotgunUnlocked;
     public bool rifleUnlocked;
     public bool sniperUnlocked;
+    public float walkHeadBobSpeed;
+    public float sprintHeadBobSpeed;
+    public float headBobAmount;
+    public float positionSmoothingFactor;
+    public float headBobStartDelay;
+    public float walkFOV;
+    public float sprintFOV;
+    public float fovSmoothingFactor;
     public float stamina;
-    public float staminaRecoveryTimer;
     public float staminaRecoveryDelay;
     public float staminaRecoveryRate;
     public float staminaDepletionRate;
@@ -60,7 +68,11 @@ public class Player : MonoBehaviour
     public float shotgunSpread;
     public float rifleSpread;
     public float sniperSpread;
+    float staminaRecoveryTimer;
     float rotationCamX = 0;
+    float movementStartTime;
+    float headBobTimer;
+    float fovVelocity;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -78,6 +90,8 @@ public class Player : MonoBehaviour
         ShootController();
         WeaponSwitch();
         WeaponVariableControl();
+        HandleStamina();
+        HandleHeadBobbing();
     }
     void OnTriggerEnter(Collider other)
     {
@@ -95,7 +109,7 @@ public class Player : MonoBehaviour
             {
                 sniperUnlocked = true;
             }
-            Destroy(other.transform.parent.gameObject);
+            Destroy(other.gameObject);
         }
     }
     void CheckGround()
@@ -444,6 +458,37 @@ public class Player : MonoBehaviour
                 stamina += staminaRecoveryRate * Time.deltaTime;
                 stamina = Mathf.Clamp(stamina, 0, maxStamina);
             }
+        }
+    }
+    void HandleHeadBobbing()
+    {
+        if (moving && grounded)
+        {
+            movementStartTime += Time.deltaTime;
+
+            if (movementStartTime >= headBobStartDelay)
+            {
+                headBobTimer += Time.deltaTime * (running ? sprintHeadBobSpeed : walkHeadBobSpeed);
+                float bobbingOffset = Mathf.Sin(headBobTimer) * headBobAmount;
+
+                cam.transform.localPosition = new Vector3(
+                    cameraInitialLocalPosition.x,
+                    cameraInitialLocalPosition.y + bobbingOffset,
+                    cameraInitialLocalPosition.z
+                );
+            }
+        }
+        else
+        {
+            // Smoothly reset camera position when not moving or in the air
+            cam.transform.localPosition = Vector3.Lerp(
+                cam.transform.localPosition,
+                cameraInitialLocalPosition,
+                positionSmoothingFactor * Time.deltaTime
+            );
+
+            headBobTimer = 0f;
+            movementStartTime = 0f;
         }
     }
 }
