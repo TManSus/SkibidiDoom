@@ -412,13 +412,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
-  - component: {fileID: 284801927}
-  - component: {fileID: 284801930}
-  - component: {fileID: 284801929}
-=======
   - component: {fileID: 292810130}
->>>>>>> c181e7d8ee3076fdda53a8c242e5eb0ff14f37f1
   m_Layer: 0
   m_Name: Miscellaneous
   m_TagString: Untagged
@@ -438,71 +432,12 @@ Transform:
   m_LocalPosition: {x: -31.435314, y: 36.081482, z: -57.712948}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-<<<<<<< HEAD
-  m_Children: []
-  m_Father: {fileID: 440174145}
-  m_LocalEulerAnglesHint: {x: -30, y: 0, z: 0}
---- !u!23 &284801929
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284801926}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: c673b2473e7c5ed449464beec51961ef, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &284801930
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284801926}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-=======
   m_Children:
   - {fileID: 832575519}
   - {fileID: 410087041}
   - {fileID: 1741947295}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> c181e7d8ee3076fdda53a8c242e5eb0ff14f37f1
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,95 +576,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
-<<<<<<< HEAD
---- !u!1 &358417767
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 358417768}
-  - component: {fileID: 358417771}
-  - component: {fileID: 358417770}
-  m_Layer: 0
-  m_Name: shotgunpart (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &358417768
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358417767}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 2}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 440174145}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &358417770
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358417767}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: d57f3c52273f7034a85b2f214261efca, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &358417771
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358417767}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-=======
->>>>>>> c181e7d8ee3076fdda53a8c242e5eb0ff14f37f1
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,22 +818,6 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 609576820}
-  - component: {fileID: 609576823}
-  - component: {fileID: 609576822}
-  m_Layer: 0
-  m_Name: shotgunpart (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &609576820
-Transform:
-=======
   m_GameObject: {fileID: 721155234}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -997,24 +827,10 @@ Transform:
   staminaBar: {fileID: 654079626}
 --- !u!114 &721155237
 MonoBehaviour:
->>>>>>> c181e7d8ee3076fdda53a8c242e5eb0ff14f37f1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 609576819}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0.258819, y: 0, z: 0, w: 0.9659259}
-  m_LocalPosition: {x: 0, y: -0.143, z: -0.289}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 440174145}
-  m_LocalEulerAnglesHint: {x: -30, y: 0, z: 0}
---- !u!23 &609576822
-MeshRenderer:
-=======
   m_GameObject: {fileID: 721155234}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -1041,7 +857,6 @@ MeshRenderer:
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &721155238
 CanvasRenderer:
->>>>>>> c181e7d8ee3076fdda53a8c242e5eb0ff14f37f1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2213,15 +2028,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
-  - component: {fileID: 1651553141}
-  - component: {fileID: 1651553144}
-  - component: {fileID: 1651553143}
-=======
   - component: {fileID: 1552923653}
   - component: {fileID: 1552923655}
   - component: {fileID: 1552923654}
->>>>>>> c181e7d8ee3076fdda53a8c242e5eb0ff14f37f1
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -2244,11 +2053,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1867841458}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
---- !u!23 &1651553143
-=======
 --- !u!23 &1552923654
->>>>>>> c181e7d8ee3076fdda53a8c242e5eb0ff14f37f1
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2588,23 +2393,15 @@ MonoBehaviour:
     m_Bits: 8
   health: 100
   weapon: 0
-  bulletDamage: 10
+  bulletDamage: 0
   pistolDamage: 10
   shotgunDamage: 2
   rifleDamage: 4
-<<<<<<< HEAD
-  sniperDamage: 50
-  pistolAmmo: 9
-  shotgunAmmo: 4
-  rifleAmmo: 30
-  sniperAmmo: 2
-=======
   sniperDamage: 0
   pistolAmmo: 0
   shotgunAmmo: 0
   rifleAmmo: 0
   sniperAmmo: 0
->>>>>>> c181e7d8ee3076fdda53a8c242e5eb0ff14f37f1
   grounded: 1
   jumpable: 1
   moving: 0
@@ -2623,17 +2420,6 @@ MonoBehaviour:
   maxSpeedGrounded: 10
   deacceleratingCoef: 0.2
   shootCooldown: 0.5
-<<<<<<< HEAD
-  pistolCooldown: 0.5
-  shotgunCooldown: 1
-  rifleCooldown: 0.1
-  sniperCooldown: 4
-  bulletSpread: 0.2
-  pistolSpread: 0.2
-  shotgunSpread: 0.4
-  rifleSpread: 0.3
-  sniperSpread: 0.1
-=======
   pistolCooldown: 0
   shotgunCooldown: 0
   rifleCooldown: 0
@@ -2643,7 +2429,6 @@ MonoBehaviour:
   shotgunSpread: 0
   rifleSpread: 0
   sniperSpread: 0
->>>>>>> c181e7d8ee3076fdda53a8c242e5eb0ff14f37f1
 --- !u!136 &1755456706
 CapsuleCollider:
   m_ObjectHideFlags: 0
