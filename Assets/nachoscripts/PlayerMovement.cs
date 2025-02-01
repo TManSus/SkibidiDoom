@@ -2,81 +2,117 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    // Movement settings
+    [Header("Movement Settings")]
     public float walkSpeed = 5f;
     public float sprintSpeed = 10f;
+    public float jumpHeight = 2f;
+    public float gravity = -9.81f;
+
+    // Head bobbing settings
+    [Header("Head Bobbing Settings")]
     public float walkHeadBobSpeed = 2f;
     public float sprintHeadBobSpeed = 3f;
     public float headBobAmount = 0.05f;
-    public float positionSmoothingFactor = 5f; // Smoothing factor for camera position reset
-    public float fovSmoothingFactor = 5f; // Smoothing factor for FOV transition
-    public float sprintFOV = 70f;
+    public float positionSmoothingFactor = 5f;
+    public float headBobStartDelay = 1f;
+
+    // FOV settings
+    [Header("FOV Settings")]
     public float walkFOV = 60f;
-    public float jumpHeight = 2f; // Height of the jump
-    public float gravity = -9.81f; // Gravity force
+    public float sprintFOV = 70f;
+    public float fovSmoothingFactor = 5f;
 
-    // Stamina variables
-    public float maxStamina = 100f; // Maximum stamina
-    public float currentStamina; // Current stamina
-    public float staminaDepletionRate = 10f; // Stamina depletion rate per second
-    public float staminaRecoveryRate = 5f; // Stamina recovery rate per second
-    public float staminaRecoveryDelay = 2f; // Delay before stamina starts recovering
+    // Stamina settings
+    [Header("Stamina Settings")]
+    public float maxStamina = 100f;
+    public float staminaDepletionRate = 10f;
+    public float staminaRecoveryRate = 5f;
+    public float staminaRecoveryDelay = 2f;
 
+    // Private variables
     private CharacterController controller;
     private Camera playerCamera;
     private Vector3 cameraInitialLocalPosition;
-    private float headBobTimer = 0f;
-    private bool isSprinting = false;
-    private bool isMoving = false;
+    private Vector3 velocity;
+    private float currentStamina;
+    private float staminaRecoveryTimer;
+    private float movementStartTime;
+    private float headBobTimer;
+    private float fovVelocity;
+    private bool isSprinting;
+    private bool isMoving;
     private bool isGrounded;
-    private float fovVelocity = 0f;
-    private float movementStartTime = 0f;
-    public float headBobStartDelay = 1f; // Delay before head bobbing starts
-    private Vector3 velocity; // Current velocity
-    private float staminaRecoveryTimer = 0f; // Timer to track stamina recovery delay
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
-        playerCamera = GetComponentInChildren<Camera>();
-        cameraInitialLocalPosition = playerCamera.transform.localPosition;
-        playerCamera.fieldOfView = walkFOV;
-        currentStamina = maxStamina; // Initialize current stamina
+        InitializeComponents();
+        ResetStamina();
+        SetInitialFOV();
     }
 
     void Update()
     {
-        isGrounded = controller.isGrounded;
+        UpdateGroundedState();
         HandleMovement();
         HandleHeadBobbing();
         HandleFOV();
         HandleStamina();
     }
 
-    void HandleMovement()
+    #region Initialization Methods
+    private void InitializeComponents()
     {
-        bool sprintKeyPressed = Input.GetKey(KeyCode.LeftShift);
-        isSprinting = sprintKeyPressed && isMoving && currentStamina > 0;
-        float currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
+        controller = GetComponent<CharacterController>();
+        playerCamera = GetComponentInChildren<Camera>();
+        cameraInitialLocalPosition = playerCamera.transform.localPosition;
+    }
 
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+    private void ResetStamina()
+    {
+        currentStamina = maxStamina;
+    }
 
-        if (move.magnitude > 1)
-        {
-            move.Normalize();
-        }
+    private void SetInitialFOV()
+    {
+        playerCamera.fieldOfView = walkFOV;
+    }
+    #endregion
 
-        // Apply movement
-        controller.Move(move * currentSpeed * Time.deltaTime);
-
-        // Apply gravity
+    #region Movement Handling
+    private void UpdateGroundedState()
+    {
+        isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f; // Small value to keep the player grounded
+            velocity.y = -2f; // Keep the player grounded with a small downward force
+        }
+    }
+
+    private void HandleMovement()
+    {
+        float moveX = Input.GetAxis("Horizontal");
+        float moveZ = Input.GetAxis("Vertical");
+        Vector3 moveDirection = transform.right * moveX + transform.forward * moveZ;
+
+        // Normalize movement direction to prevent faster diagonal movement
+        if (moveDirection.magnitude > 1)
+        {
+            moveDirection.Normalize();
         }
 
-        // Jumping
+        // Determine if the player is moving
+        isMoving = moveDirection.magnitude > 0;
+
+        // Sprint logic
+        bool sprintKeyPressed = Input.GetKey(KeyCode.LeftShift);
+        isSprinting = sprintKeyPressed && isMoving && currentStamina > 0;
+
+        // Apply movement speed
+        float currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
+        controller.Move(moveDirection * currentSpeed * Time.deltaTime);
+
+        // Jumping logic
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -84,32 +120,28 @@ public class PlayerMovement : MonoBehaviour
 
         // Apply gravity
         velocity.y += gravity * Time.deltaTime;
-
-        // Apply vertical movement
         controller.Move(velocity * Time.deltaTime);
 
-        // Determine if the player is moving
-        isMoving = move.magnitude > 0;
-
-        // Reset movement start time if the player is not moving
+        // Reset movement start time if not moving
         if (!isMoving)
         {
             movementStartTime = 0f;
         }
     }
+    #endregion
 
-    void HandleHeadBobbing()
+    #region Head Bobbing
+    private void HandleHeadBobbing()
     {
-        if (isMoving && controller.isGrounded)
+        if (isMoving && isGrounded)
         {
-            // Increment movement start time
             movementStartTime += Time.deltaTime;
 
-            // Start head bobbing after the specified delay
             if (movementStartTime >= headBobStartDelay)
             {
                 headBobTimer += Time.deltaTime * (isSprinting ? sprintHeadBobSpeed : walkHeadBobSpeed);
                 float bobbingOffset = Mathf.Sin(headBobTimer) * headBobAmount;
+
                 playerCamera.transform.localPosition = new Vector3(
                     cameraInitialLocalPosition.x,
                     cameraInitialLocalPosition.y + bobbingOffset,
@@ -119,24 +151,29 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            // Smoothly reset the camera position when not moving or in the air
+            // Smoothly reset camera position when not moving or in the air
             playerCamera.transform.localPosition = Vector3.Lerp(
                 playerCamera.transform.localPosition,
                 cameraInitialLocalPosition,
                 positionSmoothingFactor * Time.deltaTime
             );
+
             headBobTimer = 0f;
-            movementStartTime = 0f; // Reset movement start time when stopping or in the air
+            movementStartTime = 0f;
         }
     }
+    #endregion
 
-    void HandleFOV()
+    #region FOV Handling
+    private void HandleFOV()
     {
         float targetFOV = isSprinting ? sprintFOV : walkFOV;
         playerCamera.fieldOfView = Mathf.SmoothDamp(playerCamera.fieldOfView, targetFOV, ref fovVelocity, fovSmoothingFactor);
     }
+    #endregion
 
-    void HandleStamina()
+    #region Stamina Handling
+    private void HandleStamina()
     {
         if (isSprinting)
         {
@@ -150,7 +187,6 @@ public class PlayerMovement : MonoBehaviour
             // Increment recovery timer when not sprinting
             staminaRecoveryTimer += Time.deltaTime;
 
-            // Recover stamina after delay
             if (staminaRecoveryTimer >= staminaRecoveryDelay)
             {
                 currentStamina += staminaRecoveryRate * Time.deltaTime;
@@ -158,4 +194,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    // Expose stamina-related variables for external access
+    public float CurrentStamina => currentStamina; // Read-only property for current stamina
+    public float MaxStamina => maxStamina;        // Read-only property for max stamina
 }

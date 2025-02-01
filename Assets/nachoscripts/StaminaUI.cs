@@ -3,12 +3,15 @@ using UnityEngine.UI;
 
 public class StaminaUI : MonoBehaviour
 {
+    [Header("UI References")]
     public Image staminaBar; // Reference to the UI Image representing the stamina bar
-    private PlayerMovement playerMovement; // Reference to the PlayerMovement script
+
+    [Header("Player Settings")]
+    [SerializeField] private PlayerMovement playerMovement; // Reference to the PlayerMovement script
 
     void Start()
     {
-        AssignPlayerMovement(); // Automatically find and assign the PlayerMovement script
+        InitializePlayerMovement();
     }
 
     void Update()
@@ -17,19 +20,28 @@ public class StaminaUI : MonoBehaviour
             return;
 
         // Update the stamina bar fill amount
-        float fillAmount = playerMovement.currentStamina / playerMovement.maxStamina;
-        staminaBar.fillAmount = fillAmount;
+        float fillAmount = playerMovement.CurrentStamina / playerMovement.MaxStamina;
+        staminaBar.fillAmount = Mathf.Clamp01(fillAmount); // Clamp to avoid invalid values
     }
 
+    /// <summary>
+    /// Assigns the PlayerMovement script manually (useful for inspector or external scripts).
+    /// </summary>
+    /// <param name="movement">The PlayerMovement component to assign.</param>
     public void AssignPlayerMovement(PlayerMovement movement)
     {
         playerMovement = movement;
     }
 
-    public void AssignPlayerMovement()
+    /// <summary>
+    /// Automatically finds and assigns the PlayerMovement script in the scene.
+    /// </summary>
+    private void InitializePlayerMovement()
     {
-        // Automatically find the PlayerMovement script in the scene
-        playerMovement = FindFirstObjectByType<PlayerMovement>();
+        if (playerMovement == null)
+        {
+            playerMovement = FindFirstObjectByType<PlayerMovement>();
+        }
 
         if (playerMovement == null)
         {
