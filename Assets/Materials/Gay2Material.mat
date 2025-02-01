@@ -128,7 +128,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _active: 0
-    - _desactivate: 1
+    - _desactivate: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

@@ -266,7 +266,7 @@ public class Player : MonoBehaviour
         {
             Quaternion i = new Quaternion(Random.Range(-bulletSpread, bulletSpread), Random.Range(-bulletSpread, bulletSpread), 0, 0);
             shootable = false;
-            if(weapon == 0)
+            if(weapon == 0 || weapon == 2 || weapon == 3)
             {
                 shootSoundSource.Play();
                 Debug.DrawLine(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.position + i * cam.transform.forward * 100000.25f, Color.red, 1);
@@ -283,7 +283,7 @@ public class Player : MonoBehaviour
                 List<RaycastHit> hits = new List<RaycastHit>();
                 shootSoundSource.Play();
                 Debug.DrawLine(cam.transform.position + cam.transform.forward * 0.25f, cam.transform.position + i * cam.transform.forward * 100000.25f, Color.red, 1);
-                for(int a = 0; a == 10; a++)
+                for(int a = 0; a < 10; a++)
                 {
                     i = new Quaternion(Random.Range(-bulletSpread, bulletSpread), Random.Range(-bulletSpread, bulletSpread), 0, 0);
                     Physics.Raycast(cam.transform.position + cam.transform.forward * 0.25f, i * cam.transform.forward, out RaycastHit hit, Mathf.Infinity, enemyMask);
