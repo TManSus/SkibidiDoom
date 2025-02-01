@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     Camera cam;
     public TextMeshProUGUI healthText;
     public RectTransform healthBarFill;
+    public TextMeshProUGUI staminaText;
+    public RectTransform staminaBarFill;
     public AudioSource shootSoundSource;
     public List<GameObject> weaponList;
     public LayerMask enemyMask;
@@ -27,12 +29,19 @@ public class Player : MonoBehaviour
     public bool grounded;
     public bool jumpable;
     public bool moving;
+    public bool running;
     public bool crouching;
     public bool shootable;
     public bool shootableControl;
     public bool shotgunUnlocked;
     public bool rifleUnlocked;
     public bool sniperUnlocked;
+    public float stamina;
+    public float staminaRecoveryTimer;
+    public float staminaRecoveryDelay;
+    public float staminaRecoveryRate;
+    public float staminaDepletionRate;
+    public float maxStamina;
     public float moveSpeed;
     public float walkSpeed;
     public float airSpeed;
@@ -64,7 +73,7 @@ public class Player : MonoBehaviour
         CheckGround();
         MovementVoid();
         MouseRotation();
-        HealthBar();
+        HealthAndStaminaBar();
         SlideCrouch();
         ShootController();
         WeaponSwitch();
@@ -216,11 +225,14 @@ public class Player : MonoBehaviour
         transform.Rotate(0, y, 0);
         cam.transform.localRotation = new Quaternion(rotationCamX, 0, 0, cam.transform.localRotation.w);
     }
-    void HealthBar()
+    void HealthAndStaminaBar()
     {
         healthBarFill.sizeDelta = new Vector2(health * 3, 50);
         healthBarFill.localPosition = new Vector2(health * 3 / 2 - 150, 0);
         healthText.text = health.ToString();
+        staminaBarFill.sizeDelta = new Vector2(stamina * 3, 50);
+        staminaBarFill.localPosition = new Vector2(stamina * 3 / 2 - 150, 0);
+        staminaText.text = Mathf.RoundToInt(stamina).ToString();
     }
     public void DamagePlayer(int damage)
     {
@@ -411,6 +423,27 @@ public class Player : MonoBehaviour
             shootCooldown = sniperCooldown;
             bulletSpread = sniperSpread;
             bulletDamage = sniperDamage;
+        }
+    }
+    void HandleStamina()
+    {
+        if (running)
+        {
+            // Deplete stamina while sprinting
+            stamina -= staminaDepletionRate * Time.deltaTime;
+            stamina = Mathf.Clamp(stamina, 0, maxStamina);
+            staminaRecoveryTimer = 0f; // Reset recovery timer when sprinting
+        }
+        else
+        {
+            // Increment recovery timer when not sprinting
+            staminaRecoveryTimer += Time.deltaTime;
+
+            if (staminaRecoveryTimer >= staminaRecoveryDelay)
+            {
+                stamina += staminaRecoveryRate * Time.deltaTime;
+                stamina = Mathf.Clamp(stamina, 0, maxStamina);
+            }
         }
     }
 }
