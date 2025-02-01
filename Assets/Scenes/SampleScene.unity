@@ -415,7 +415,6 @@ GameObject:
   - component: {fileID: 284801927}
   - component: {fileID: 284801930}
   - component: {fileID: 284801929}
-  - component: {fileID: 284801928}
   m_Layer: 0
   m_Name: shotgunpart (2)
   m_TagString: Untagged
@@ -438,27 +437,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 440174145}
   m_LocalEulerAnglesHint: {x: -30, y: 0, z: 0}
---- !u!65 &284801928
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 284801926}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &284801929
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -662,7 +640,6 @@ GameObject:
   - component: {fileID: 358417768}
   - component: {fileID: 358417771}
   - component: {fileID: 358417770}
-  - component: {fileID: 358417769}
   m_Layer: 0
   m_Name: shotgunpart (1)
   m_TagString: Untagged
@@ -685,27 +662,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 440174145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &358417769
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358417767}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &358417770
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -926,7 +882,6 @@ GameObject:
   - component: {fileID: 609576820}
   - component: {fileID: 609576823}
   - component: {fileID: 609576822}
-  - component: {fileID: 609576821}
   m_Layer: 0
   m_Name: shotgunpart (3)
   m_TagString: Untagged
@@ -949,27 +904,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 440174145}
   m_LocalEulerAnglesHint: {x: -30, y: 0, z: 0}
---- !u!65 &609576821
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609576819}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &609576822
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1990,7 +1924,6 @@ GameObject:
   - component: {fileID: 1651553141}
   - component: {fileID: 1651553144}
   - component: {fileID: 1651553143}
-  - component: {fileID: 1651553142}
   m_Layer: 0
   m_Name: shotgunpart (4)
   m_TagString: Untagged
@@ -2013,27 +1946,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 440174145}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1651553142
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1651553140}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1651553143
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2238,11 +2150,11 @@ MonoBehaviour:
     m_Bits: 8
   health: 100
   weapon: 0
-  bulletDamage: 0
+  bulletDamage: 10
   pistolDamage: 10
   shotgunDamage: 2
   rifleDamage: 4
-  sniperDamage: 0
+  sniperDamage: 50
   pistolAmmo: 9
   shotgunAmmo: 4
   rifleAmmo: 30
@@ -2269,7 +2181,7 @@ MonoBehaviour:
   shotgunCooldown: 1
   rifleCooldown: 0.1
   sniperCooldown: 4
-  bulletSpread: 0
+  bulletSpread: 0.2
   pistolSpread: 0.2
   shotgunSpread: 0.4
   rifleSpread: 0.3
