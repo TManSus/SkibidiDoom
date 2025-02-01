@@ -45,7 +45,7 @@ public class StaminaUI : MonoBehaviour
 
         if (playerMovement == null)
         {
-            Debug.LogError("No PlayerMovement script found in the scene. Please ensure the player has the PlayerMovement component.");
+            
         }
     }
 }
